@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My FI Tracker – the 4% rule, milestone by milestone</title>
   <meta name="description" content="Track your net worth against milestones and see which costs in your life each milestone can pay for, using the 4% rule." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -12,13 +13,16 @@
     <div class="container">
       <a class="logo" href="index.html">Free<span>dom</span> Number</a>
       <nav class="nav">
-        <a href="index.html">Overview &amp; calculators</a>
-        <a href="tracker.html" class="active">My tracker</a>
+        <a href="index.html">Overview</a>
+        <a href="tracker.html" class="active">Tracker</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="blog.html">Blog</a>
       </nav>
       <label class="currency-picker">
         <span class="label-text">Currency</span>
         <select data-currency-select aria-label="Currency"></select>
       </label>
+      <a href="login.html" class="nav-login" data-auth-link>Log in</a>
     </div>
   </header>
 
@@ -113,6 +117,7 @@
           <button class="btn btn-primary" type="submit">Add</button>
         </form>
 
+        <div class="table-scroll">
         <table class="data" id="cost-table">
           <thead>
             <tr>
@@ -126,6 +131,7 @@
           </thead>
           <tbody></tbody>
         </table>
+        </div>
         <div class="empty" id="cost-empty">No costs yet. Add your first one above.</div>
         <div class="callout" id="cost-summary" style="margin-top:16px"></div>
       </div>
@@ -139,10 +145,12 @@
           <canvas class="chart" id="t-chart"></canvas>
         </div>
         <div class="card">
+          <div class="table-scroll">
           <table class="data" id="hist-table">
             <thead><tr><th>Date</th><th class="num">Net worth</th><th class="num">Pays for / year</th><th></th></tr></thead>
             <tbody></tbody>
           </table>
+          </div>
           <div class="empty" id="hist-empty">Save your net worth above to start your history.</div>
         </div>
       </div>
@@ -152,8 +160,9 @@
       <div class="card">
         <h3 style="margin-top:0">Your data</h3>
         <p class="calc-desc">
-          Everything is saved only in this browser, and nothing is sent anywhere. Export a backup
-          to move your tracker to another device. Switching currency doesn't convert your saved amounts.
+          <span data-guest-only>Your numbers are saved only in this browser. <a href="login.html">Log in</a> to save them to your account and use them on any device.</span>
+          <span data-user-only hidden>You're logged in, so your numbers are saved to your account. <em data-sync-status></em></span>
+          Export a backup to keep your own copy. Switching currency doesn't convert your saved amounts.
         </p>
         <div class="btn-row">
           <button class="btn btn-ghost btn-small" id="t-export">Export backup</button>
@@ -172,7 +181,10 @@
     </div>
   </footer>
 
+  <script src="js/vendor/supabase.js"></script>
+  <script src="js/config.js"></script>
   <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
   <script src="js/tracker.js"></script>
 </body>
 </html>

@@ -3,32 +3,26 @@
   const $ = (id) => document.getElementById(id);
   const { fmt, fmtPct, fmtNumber, num } = FI;
 
-  const monthlyRate = (annualPct) => Math.pow(1 + annualPct / 100, 1 / 12) - 1;
-
-  function formatDuration(months) {
-    if (months <= 0) return 'Already there 🎉';
-    const y = Math.floor(months / 12);
-    const m = months % 12;
-    const parts = [];
-    if (y) parts.push(`${y} year${y === 1 ? '' : 's'}`);
-    if (m) parts.push(`${m} month${m === 1 ? '' : 's'}`);
-    return parts.join(' ');
-  }
-
-  /** Simulate monthly investing until target is reached. Returns months, or Infinity. */
-  function monthsToTarget(start, monthly, annualReturnPct, target, maxYears = 100) {
-    const r = monthlyRate(annualReturnPct);
-    let v = start;
-    if (v >= target) return 0;
-    for (let m = 1; m <= maxYears * 12; m++) {
-      v = v * (1 + r) + monthly;
-      if (v >= target) return m;
-    }
-    return Infinity;
-  }
+  const { monthlyRate, formatDuration, monthsToTarget } = FI.math;
 
   /* ---------- Tabs ---------- */
+  function activateTab(id) {
+    document.querySelectorAll('.tab').forEach((t) => t.classList.toggle('active', t.dataset.tab === id));
+    document.querySelectorAll('.calc').forEach((c) => c.classList.toggle('active', c.id === id));
+  }
+
   function initTabs() {
+    // index.html#calc-years opens that calculator (used by the dashboard's "Edit" links)
+    const openFromHash = () => {
+      const id = location.hash.slice(1);
+      if (document.getElementById(id)?.classList.contains('calc')) {
+        activateTab(id);
+        document.getElementById('calculators').scrollIntoView();
+        scheduleRender();
+      }
+    };
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
     document.querySelectorAll('.tab').forEach((tab) => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.tab').forEach((t) => t.classList.toggle('active', t === tab));
@@ -222,10 +216,41 @@
     });
   }
 
+  /* ---------- Remember the values typed in (synced to your account when logged in) ---------- */
+  const CALC_KEY = 'fi.calc';
+  const inputs = () => document.querySelectorAll('#calculators input[id]');
+
+  function restoreInputs() {
+    const saved = FI.store.get(CALC_KEY, {});
+    inputs().forEach((el) => {
+      if (saved[el.id] !== undefined && saved[el.id] !== '') el.value = saved[el.id];
+    });
+  }
+
+  let saveTimer;
+  function saveInputs() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      const values = {};
+      inputs().forEach((el) => (values[el.id] = el.value));
+      FI.store.set(CALC_KEY, values);
+    }, 400);
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     initTabs();
-    document.getElementById('calculators').addEventListener('input', scheduleRender);
+    restoreInputs();
+    const root = document.getElementById('calculators');
+    root.addEventListener('input', () => {
+      scheduleRender();
+      saveInputs();
+    });
     document.addEventListener('currencychange', scheduleRender);
+    // Numbers arrived from your account after logging in
+    document.addEventListener('fi:synced', () => {
+      restoreInputs();
+      scheduleRender();
+    });
     scheduleRender();
   });
 })();

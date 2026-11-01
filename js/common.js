@@ -20,12 +20,80 @@ const FI = (() => {
         return fallback;
       }
     },
-    set(key, value) {
+    set(key, value, { silent = false } = {}) {
       try {
         localStorage.setItem(key, JSON.stringify(value));
       } catch {
         /* storage unavailable (private mode etc.) */
       }
+      // lets the account sync know something changed
+      if (!silent) document.dispatchEvent(new CustomEvent('fi:storechange', { detail: key }));
+    },
+    remove(key) {
+      try {
+        localStorage.removeItem(key);
+      } catch {
+        /* ignore */
+      }
+    },
+  };
+
+  /* ---------- Shared finance math (used by calculators and dashboard) ---------- */
+  const math = {
+    /* Milestones (DKK-sized; scaled by currency). Close together early, further apart later:
+       10k, 25k, 50k, 75k, 100k → every 50k to 1M → every 250k to 2M → every 500k to 5M → every 1M to 10M */
+    BASE_LADDER: (() => {
+      const out = [10e3, 25e3, 50e3, 75e3, 100e3];
+      for (let v = 150e3; v <= 1e6; v += 50e3) out.push(v);
+      for (let v = 1.25e6; v <= 2e6; v += 0.25e6) out.push(v);
+      for (let v = 2.5e6; v <= 5e6; v += 0.5e6) out.push(v);
+      for (let v = 6e6; v <= 10e6; v += 1e6) out.push(v);
+      return out;
+    })(),
+
+    // Suggested labels for the base amounts (yearly cost in DKK = 4%).
+    DEFAULT_LABELS: {
+      10e3: 'Brunch for two',
+      25e3: 'A nice dinner out',
+      50e3: 'Cinema trips for a year',
+      75e3: 'Concert tickets for two',
+      100e3: 'Streaming services for a year',
+      150e3: 'A weekend getaway',
+      200e3: 'Phone and internet for a year',
+      250e3: 'Christmas and birthday gifts',
+      500e3: 'A summer holiday',
+      1e6: 'Groceries for a year',
+    },
+
+    milestoneLabel(labels, i) {
+      return labels && Object.prototype.hasOwnProperty.call(labels, i)
+        ? labels[i]
+        : math.DEFAULT_LABELS[math.BASE_LADDER[i]] || '';
+    },
+
+    monthlyRate: (annualPct) => Math.pow(1 + annualPct / 100, 1 / 12) - 1,
+
+    /** Simulate monthly investing until target is reached. Returns months, or Infinity. */
+    monthsToTarget(start, monthly, annualReturnPct, target, maxYears = 100) {
+      const r = math.monthlyRate(annualReturnPct);
+      let v = start;
+      if (v >= target) return 0;
+      for (let m = 1; m <= maxYears * 12; m++) {
+        v = v * (1 + r) + monthly;
+        if (v >= target) return m;
+      }
+      return Infinity;
+    },
+
+    formatDuration(months) {
+      if (!Number.isFinite(months)) return '100+ years';
+      if (months <= 0) return 'Already there 🎉';
+      const y = Math.floor(months / 12);
+      const m = months % 12;
+      const parts = [];
+      if (y) parts.push(`${y} year${y === 1 ? '' : 's'}`);
+      if (m) parts.push(`${m} month${m === 1 ? '' : 's'}`);
+      return parts.join(' ');
     },
   };
 
@@ -34,9 +102,9 @@ const FI = (() => {
     return CURRENCIES[c] ? c : 'DKK';
   }
 
-  function setCurrency(code) {
+  function setCurrency(code, { silent = false } = {}) {
     if (!CURRENCIES[code]) return;
-    store.set(CURRENCY_KEY, code);
+    store.set(CURRENCY_KEY, code, { silent });
     updateCurrencyLabels();
     document.dispatchEvent(new CustomEvent('currencychange', { detail: code }));
   }
@@ -101,11 +169,19 @@ const FI = (() => {
       Object.entries(CURRENCIES).forEach(([code, info]) => {
         const opt = document.createElement('option');
         opt.value = code;
-        opt.textContent = `${code} – ${info.name}`;
+        opt.dataset.long = `${code} – ${info.name}`;
         sel.appendChild(opt);
       });
       sel.addEventListener('change', () => setCurrency(sel.value));
     });
+    // Short labels ("DKK") on phones, long ("DKK – Danish krone") elsewhere
+    const narrow = window.matchMedia('(max-width: 600px)');
+    const label = () =>
+      document.querySelectorAll('[data-currency-select] option').forEach((o) => {
+        o.textContent = narrow.matches ? o.value : o.dataset.long;
+      });
+    label();
+    narrow.addEventListener('change', label);
     updateCurrencyLabels();
   }
 
@@ -142,13 +218,17 @@ const FI = (() => {
         return;
       }
 
-      const pad = { l: 64, r: 16, t: 16, b: 28 };
       const xs = all.map((p) => p.x);
       const ys = all.map((p) => p.y).concat((opts.hLines || []).map((l) => l.y));
       const xMin = Math.min(...xs);
       const xMax = Math.max(...xs);
       const yMin = Math.min(0, ...ys);
       const yMax = Math.max(...ys) * 1.05 || 1;
+      // left padding fits the widest y-axis label
+      ctx.font = '11px system-ui, sans-serif';
+      let labelW = 0;
+      for (let i = 0; i <= 4; i++) labelW = Math.max(labelW, ctx.measureText(fmtCompact(yMin + ((yMax - yMin) * i) / 4)).width);
+      const pad = { l: Math.ceil(labelW) + 14, r: 16, t: 16, b: 28 };
       const X = (x) => pad.l + ((x - xMin) / (xMax - xMin || 1)) * (w - pad.l - pad.r);
       const Y = (y) => h - pad.b - ((y - yMin) / (yMax - yMin || 1)) * (h - pad.t - pad.b);
 
@@ -322,5 +402,5 @@ const FI = (() => {
 
   document.addEventListener('DOMContentLoaded', initCurrencySelects);
 
-  return { store, getCurrency, setCurrency, currencyInfo, fmt, fmtCompact, fmtNumber, fmtPct, num, lineChart, toast };
+  return { store, math, getCurrency, setCurrency, currencyInfo, fmt, fmtCompact, fmtNumber, fmtPct, num, lineChart, toast };
 })();

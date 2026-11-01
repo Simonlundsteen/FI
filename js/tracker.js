@@ -7,14 +7,7 @@
   /* ---------- Milestone ladder (in DKK-sized units, scaled for other currencies) ----------
      Close together at the start, then further apart:
      10k, 25k, 50k, 75k, 100k → every 50k to 1M → every 250k to 2M → every 500k to 5M → every 1M to 10M */
-  const BASE_LADDER = (() => {
-    const out = [10e3, 25e3, 50e3, 75e3, 100e3];
-    for (let v = 150e3; v <= 1e6; v += 50e3) out.push(v);
-    for (let v = 1.25e6; v <= 2e6; v += 0.25e6) out.push(v);
-    for (let v = 2.5e6; v <= 5e6; v += 0.5e6) out.push(v);
-    for (let v = 6e6; v <= 10e6; v += 1e6) out.push(v);
-    return out;
-  })();
+  const BASE_LADDER = FI.math.BASE_LADDER;
 
   const GROUPS = [
     { upTo: 100e3, title: 'Getting started' },
@@ -23,19 +16,7 @@
     { upTo: 10e6, title: 'Financially independent territory' },
   ];
 
-  // Suggested labels for the base amounts (yearly cost in DKK = 4%).
-  const DEFAULT_LABELS = {
-    10e3: 'Brunch for two',
-    25e3: 'A nice dinner out',
-    50e3: 'Cinema trips for a year',
-    75e3: 'Concert tickets for two',
-    100e3: 'Streaming services for a year',
-    150e3: 'A weekend getaway',
-    200e3: 'Phone and internet for a year',
-    250e3: 'Christmas and birthday gifts',
-    500e3: 'A summer holiday',
-    1e6: 'Groceries for a year',
-  };
+
 
   const defaults = () => ({ history: [], labels: {}, costs: [], rate: 4 });
   let data = Object.assign(defaults(), store.get(KEY, {}));
@@ -53,11 +34,7 @@
     const h = sortedHistory();
     return h.length ? h[h.length - 1].amount : 0;
   }
-  function labelFor(i) {
-    return Object.prototype.hasOwnProperty.call(data.labels, i)
-      ? data.labels[i]
-      : DEFAULT_LABELS[BASE_LADDER[i]] || '';
-  }
+  const labelFor = (i) => FI.math.milestoneLabel(data.labels, i);
 
   /* ---------- Milestone ladder DOM (built once, then updated in place) ---------- */
   let rows = [];
@@ -368,6 +345,15 @@
     });
 
     document.addEventListener('currencychange', renderAll);
+
+    // Numbers arrived from your account after logging in (or were cleared on sign-out)
+    document.addEventListener('fi:synced', () => {
+      data = Object.assign(defaults(), store.get(KEY, {}));
+      $('t-rate').value = data.rate;
+      $('t-networth').value = data.history.length ? netWorth() : '';
+      buildLadder();
+      renderAll();
+    });
 
     $('t-export').addEventListener('click', () => {
       const blob = new Blob([JSON.stringify({ ...data, currency: FI.getCurrency() }, null, 2)], { type: 'application/json' });

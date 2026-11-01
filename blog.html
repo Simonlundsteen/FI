@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog – Freedom Number</title>
+  <meta name="description" content="Posts about financial independence, saving and investing." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html">Free<span>dom</span> Number</a>
+      <nav class="nav">
+        <a href="index.html">Overview</a>
+        <a href="tracker.html">Tracker</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="blog.html" class="active">Blog</a>
+      </nav>
+      <label class="currency-picker">
+        <span class="label-text">Currency</span>
+        <select data-currency-select aria-label="Currency"></select>
+      </label>
+      <a href="login.html" class="nav-login" data-auth-link>Log in</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- List of posts -->
+    <div id="blog-list-view">
+      <div class="page-head" style="display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap">
+        <div>
+          <span class="eyebrow">Blog</span>
+          <h1>Notes on the road to FI</h1>
+          <p>Thoughts, lessons and progress updates on saving, investing and buying back time.</p>
+        </div>
+        <a class="btn btn-primary" href="blog-editor.html" data-admin-only hidden>+ Write new post</a>
+      </div>
+      <div class="post-list" id="post-list"></div>
+      <p class="empty" id="blog-status">Loading posts…</p>
+    </div>
+
+    <!-- Single post -->
+    <article class="post" id="post-view" hidden>
+      <a href="blog.html">← All posts</a>
+      <div class="post-meta" style="margin-top:20px" id="post-meta"></div>
+      <h1 id="post-title"></h1>
+      <img class="cover-img" id="post-cover" alt="" hidden />
+      <div class="prose" id="post-body"></div>
+      <div class="btn-row" style="margin-top:32px" data-admin-only hidden>
+        <a class="btn btn-ghost btn-small" id="post-edit">Edit this post</a>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <div class="container">
+      For education only, not financial advice.
+    </div>
+  </footer>
+
+  <script src="js/vendor/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/vendor/marked.min.js"></script>
+  <script src="js/vendor/purify.min.js"></script>
+  <script src="js/blog.js"></script>
+</body>
+</html>

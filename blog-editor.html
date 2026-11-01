@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Write a post – Freedom Number</title>
+  <meta name="description" content="Write and publish blog posts." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html">Free<span>dom</span> Number</a>
+      <nav class="nav">
+        <a href="index.html">Overview</a>
+        <a href="tracker.html">Tracker</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="blog.html" class="active">Blog</a>
+      </nav>
+      <label class="currency-picker">
+        <span class="label-text">Currency</span>
+        <select data-currency-select aria-label="Currency"></select>
+      </label>
+      <a href="login.html" class="nav-login" data-auth-link>Log in</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-head">
+      <span class="eyebrow"><a href="blog.html" style="text-decoration:none">← Blog</a></span>
+      <h1 id="ed-heading">Write a post</h1>
+    </div>
+
+    <div class="card" id="ed-gate" hidden>
+      <p class="calc-desc" id="ed-gate-msg" style="margin:0"></p>
+    </div>
+
+    <form id="ed-form" hidden novalidate>
+      <div class="card" style="margin-bottom:20px">
+        <div class="two-col">
+          <div>
+            <div class="field">
+              <label for="ed-title">Title</label>
+              <input id="ed-title" type="text" maxlength="160" required placeholder="My first 100.000 kr." />
+            </div>
+            <div class="field">
+              <label for="ed-slug">Link name <span class="unit">blog.html?post=…</span></label>
+              <input id="ed-slug" type="text" maxlength="100" required pattern="[a-z0-9-]+" placeholder="my-first-100k" />
+            </div>
+            <div class="field">
+              <label for="ed-excerpt">Short summary <span class="unit">shown on the blog list</span></label>
+              <input id="ed-excerpt" type="text" maxlength="300" placeholder="What I learned on the way to my first milestone" />
+            </div>
+          </div>
+          <div>
+            <div class="field">
+              <label for="ed-cover-url">Cover image <span class="unit">optional</span></label>
+              <div style="display:flex;gap:8px">
+                <input id="ed-cover-url" type="url" placeholder="Paste an image URL or upload →" style="flex:1" />
+                <label class="btn btn-ghost btn-small" style="white-space:nowrap">Upload<input id="ed-cover-file" type="file" accept="image/*" hidden /></label>
+              </div>
+              <img class="cover-preview" id="ed-cover-preview" alt="" hidden />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="editor-grid">
+        <div class="card">
+          <div class="editor-toolbar">
+            <button class="btn btn-ghost btn-small" type="button" data-md="h2" title="Heading">H2</button>
+            <button class="btn btn-ghost btn-small" type="button" data-md="bold" title="Bold"><b>B</b></button>
+            <button class="btn btn-ghost btn-small" type="button" data-md="italic" title="Italic"><i>I</i></button>
+            <button class="btn btn-ghost btn-small" type="button" data-md="link" title="Link">Link</button>
+            <button class="btn btn-ghost btn-small" type="button" data-md="quote" title="Quote">“ ”</button>
+            <button class="btn btn-ghost btn-small" type="button" data-md="list" title="List">• List</button>
+            <label class="btn btn-ghost btn-small">🖼 Image<input id="ed-image-file" type="file" accept="image/*" hidden /></label>
+            <label class="btn btn-ghost btn-small">⬆ Upload .md / .txt<input id="ed-import-file" type="file" accept=".md,.markdown,.txt,text/markdown,text/plain" hidden /></label>
+          </div>
+          <textarea id="ed-content" placeholder="Write your post here. Markdown works: ## for headings, **bold**, *italic*, - lists, > quotes."></textarea>
+        </div>
+        <div class="card editor-preview">
+          <div class="post-meta" style="margin-bottom:8px">Preview</div>
+          <div class="prose" id="ed-preview"></div>
+        </div>
+      </div>
+
+      <div class="editor-actions">
+        <label class="check"><input type="checkbox" id="ed-published" /> Published (visible to everyone)</label>
+        <div class="btn-row">
+          <button class="btn btn-danger btn-small" type="button" id="ed-delete" hidden>Delete</button>
+          <a class="btn btn-ghost" id="ed-view" hidden>View post</a>
+          <button class="btn btn-primary" type="submit" id="ed-save">Save</button>
+        </div>
+      </div>
+      <p class="form-msg" id="ed-msg" role="status"></p>
+    </form>
+  </main>
+
+  <footer>
+    <div class="container">
+      For education only, not financial advice.
+    </div>
+  </footer>
+
+  <script src="js/vendor/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/vendor/marked.min.js"></script>
+  <script src="js/vendor/purify.min.js"></script>
+  <script src="js/blog-editor.js"></script>
+</body>
+</html>

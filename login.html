@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log in – Freedom Number</title>
+  <meta name="description" content="Log in to save your financial independence numbers to your account." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html">Free<span>dom</span> Number</a>
+      <nav class="nav">
+        <a href="index.html">Overview</a>
+        <a href="tracker.html">Tracker</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="blog.html">Blog</a>
+      </nav>
+      <label class="currency-picker">
+        <span class="label-text">Currency</span>
+        <select data-currency-select aria-label="Currency"></select>
+      </label>
+      <a href="login.html" class="nav-login active" data-auth-link>Log in</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="auth-wrap">
+      <!-- Supabase not configured yet -->
+      <div class="card" id="auth-off" hidden>
+        <h1>Login isn't set up yet</h1>
+        <p class="calc-desc">
+          Accounts need a Supabase project. Add your project URL and public key to
+          <code>js/config.js</code> (see the README). Until then, everything still works and is saved in this browser.
+        </p>
+        <a class="btn btn-primary" href="dashboard.html">Go to my dashboard</a>
+      </div>
+
+      <!-- Logged out -->
+      <div class="card" id="auth-guest" hidden>
+        <h1 id="auth-title">Welcome back</h1>
+        <p class="calc-desc" id="auth-intro">Log in to save your numbers to your account and use them on any device.</p>
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-mode="login" type="button">Log in</button>
+          <button class="tab" data-mode="signup" type="button">Create account</button>
+        </div>
+        <form id="auth-form" novalidate>
+          <div class="field">
+            <label for="auth-email">Email</label>
+            <input id="auth-email" type="email" autocomplete="email" required />
+          </div>
+          <div class="field" id="pw-field">
+            <label for="auth-password">Password <span class="unit" id="pw-hint"></span></label>
+            <input id="auth-password" type="password" autocomplete="current-password" minlength="8" required />
+          </div>
+          <button class="btn btn-primary" id="auth-submit" type="submit" style="width:100%">Log in</button>
+          <p class="form-msg" id="auth-msg" role="status"></p>
+        </form>
+        <p style="margin:6px 0 0;font-size:0.92rem">
+          <button class="link-btn" id="forgot-btn" type="button">Forgot your password?</button>
+        </p>
+      </div>
+
+      <!-- Setting a new password after clicking the reset link -->
+      <div class="card" id="auth-recovery" hidden>
+        <h1>Choose a new password</h1>
+        <form id="recovery-form">
+          <div class="field">
+            <label for="new-password">New password <span class="unit">min. 8 characters</span></label>
+            <input id="new-password" type="password" autocomplete="new-password" minlength="8" required />
+          </div>
+          <button class="btn btn-primary" type="submit" style="width:100%">Save new password</button>
+          <p class="form-msg" id="recovery-msg" role="status"></p>
+        </form>
+      </div>
+
+      <!-- Logged in -->
+      <div class="card" id="auth-user" hidden>
+        <h1>My account</h1>
+        <p class="calc-desc">Logged in as <strong id="user-email"></strong> <span class="badge-pill" id="admin-badge" hidden>Admin</span></p>
+        <p class="calc-desc" style="margin-top:-8px">
+          Your tracker, calculator numbers and currency are saved to your account. <em data-sync-status></em>
+        </p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="dashboard.html">Open my dashboard</a>
+          <a class="btn btn-ghost" href="tracker.html">My tracker</a>
+          <a class="btn btn-ghost" href="blog-editor.html" data-admin-only hidden>Write a blog post</a>
+        </div>
+        <hr style="border:none;border-top:1px solid var(--border);margin:22px 0" />
+        <button class="btn btn-ghost btn-small" id="signout-btn">Log out</button>
+        <p class="hint" style="font-size:0.85rem;color:var(--muted);margin:8px 0 0">Logging out removes your numbers from this browser. They stay safe in your account.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      For education only, not financial advice.
+    </div>
+  </footer>
+
+  <script src="js/vendor/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

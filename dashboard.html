@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – Freedom Number</title>
+  <meta name="description" content="An overview of your financial independence numbers." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html">Free<span>dom</span> Number</a>
+      <nav class="nav">
+        <a href="index.html">Overview</a>
+        <a href="tracker.html">Tracker</a>
+        <a href="dashboard.html" class="active">Dashboard</a>
+        <a href="blog.html">Blog</a>
+      </nav>
+      <label class="currency-picker">
+        <span class="label-text">Currency</span>
+        <select data-currency-select aria-label="Currency"></select>
+      </label>
+      <a href="login.html" class="nav-login" data-auth-link>Log in</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-head">
+      <span class="eyebrow">Dashboard</span>
+      <h1>Your FI overview</h1>
+      <p>Your key numbers from the tracker and calculators in one place.</p>
+    </div>
+
+    <div class="banner" data-guest-only>
+      <p><strong>Not logged in.</strong> These numbers are only saved in this browser. Log in to keep them on every device.</p>
+      <a class="btn btn-primary btn-small" href="login.html">Log in or sign up</a>
+    </div>
+
+    <div class="dash-hero">
+      <div class="card">
+        <div class="label">Net worth</div>
+        <div class="value" id="d-networth">–</div>
+        <div class="sub" id="d-networth-sub"></div>
+      </div>
+      <div class="card">
+        <div class="label">Your money pays for</div>
+        <div class="value" id="d-sustain">–</div>
+        <div class="sub" id="d-sustain-sub"></div>
+      </div>
+      <div class="card">
+        <div class="label">Progress to FI</div>
+        <div class="value" id="d-fi-pct">–</div>
+        <div class="progress"><div id="d-fi-bar" style="width:0"></div></div>
+        <div class="sub" id="d-fi-sub"></div>
+      </div>
+      <div class="card">
+        <div class="label">Next milestone</div>
+        <div class="value" id="d-next">–</div>
+        <div class="progress"><div id="d-next-bar" style="width:0"></div></div>
+        <div class="sub" id="d-next-sub"></div>
+      </div>
+    </div>
+
+    <div class="dash-grid">
+      <div class="card dash-card">
+        <div class="head"><h3>FI number</h3><a href="index.html#calc-fi">Edit →</a></div>
+        <div class="value" id="d-finum">–</div>
+        <div class="sub" id="d-finum-sub"></div>
+      </div>
+      <div class="card dash-card">
+        <div class="head"><h3>Time to FI</h3><a href="index.html#calc-years">Edit →</a></div>
+        <div class="value" id="d-years">–</div>
+        <div class="sub" id="d-years-sub"></div>
+        <div class="note" id="d-years-note"></div>
+      </div>
+      <div class="card dash-card">
+        <div class="head"><h3>Savings rate</h3><a href="index.html#calc-rate">Edit →</a></div>
+        <div class="value" id="d-rate">–</div>
+        <div class="sub" id="d-rate-sub"></div>
+      </div>
+      <div class="card dash-card">
+        <div class="head"><h3>Coast FI</h3><a href="index.html#calc-coast">Edit →</a></div>
+        <div class="value" id="d-coast">–</div>
+        <div class="sub" id="d-coast-sub"></div>
+        <div class="note" id="d-coast-note"></div>
+      </div>
+      <div class="card dash-card">
+        <div class="head"><h3>Milestones</h3><a href="tracker.html">Tracker →</a></div>
+        <div class="value" id="d-ms">–</div>
+        <div class="sub" id="d-ms-sub"></div>
+      </div>
+      <div class="card dash-card">
+        <div class="head"><h3>Costs covered</h3><a href="tracker.html#cost-form">Edit →</a></div>
+        <div class="value" id="d-costs">–</div>
+        <div class="sub" id="d-costs-sub"></div>
+      </div>
+      <div class="card dash-card">
+        <div class="head"><h3>Compound growth</h3><a href="index.html#calc-compound">Edit →</a></div>
+        <div class="value" id="d-comp">–</div>
+        <div class="sub" id="d-comp-sub"></div>
+      </div>
+      <div class="card dash-card">
+        <div class="head"><h3>Net worth change</h3><a href="tracker.html">Update →</a></div>
+        <div class="value" id="d-change">–</div>
+        <div class="sub" id="d-change-sub"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="dash-card"><div class="head"><h3>Net worth over time</h3><a href="tracker.html">Add an entry →</a></div></div>
+      <canvas class="chart" id="d-chart" style="height:300px;margin-top:10px"></canvas>
+    </div>
+    <p class="calc-desc" id="d-example-note" style="margin-top:16px;font-size:0.9rem" hidden>
+      Some cards use the example values from the calculators. Open a calculator and enter your own numbers, and they'll show up here.
+    </p>
+  </main>
+
+  <footer>
+    <div class="container">
+      For education only, not financial advice. Projections use constant real returns.
+    </div>
+  </footer>
+
+  <script src="js/vendor/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
