@@ -9,6 +9,7 @@
  * Leave these empty and the site still works, saving only in the browser.
  */
 window.FI_CONFIG = {
-  supabaseUrl: '',
-  supabaseAnonKey: '',
+  supabaseUrl: 'https://nriluxjkmzuxslfednzj.supabase.co',
+  supabaseAnonKey:
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5yaWx1eGprbXp1eHNsZmVkbnpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM1NDE1NjUsImV4cCI6MjEwOTExNzU2NX0.pXh2Zrv12sM8SLrBtWuAoJEw63s_MDX-Zw65PZ3LnaE',
 };
