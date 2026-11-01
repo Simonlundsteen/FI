@@ -42,12 +42,13 @@
       $('d-networth-sub').appendChild(a);
     }
 
-    $('d-sustain').textContent = `${fmt(nw * wr)} / yr`;
-    $('d-sustain-sub').textContent = `${fmt((nw * wr) / 12)} a month, for life (${fmtPct(wr, 1)} rule)`;
+    const sustain = Math.max(0, nw) * wr; // debt pays for nothing
+    $('d-sustain').textContent = `${fmt(sustain)} / yr`;
+    $('d-sustain-sub').textContent = `${fmt(sustain / 12)} a month, for life (${fmtPct(wr, 1)} rule)`;
 
     const fiRate = v('fi-rate') / 100;
     const fiNumber = fiRate > 0 ? (v('fi-monthly') * 12) / fiRate : Infinity;
-    const fiPct = Number.isFinite(fiNumber) && fiNumber > 0 ? Math.min(1, nw / fiNumber) : 0;
+    const fiPct = Number.isFinite(fiNumber) && fiNumber > 0 ? Math.max(0, Math.min(1, nw / fiNumber)) : 0;
     $('d-fi-pct').textContent = fmtPct(fiPct, 1);
     $('d-fi-bar').style.width = `${fiPct * 100}%`;
     $('d-fi-sub').textContent = fiPct >= 1 ? "You've reached your FI number 🎉" : `${fmt(Math.max(0, fiNumber - nw))} to go`;
@@ -105,7 +106,7 @@
       $('d-coast').textContent = 'Reached 🎉';
       $('d-coast-sub').textContent = `Your money can grow to your FI number by age ${fmtNumber(v('k-retire'))} with no more saving.`;
     } else {
-      $('d-coast').textContent = fmtPct(kCurrent / coast, 0);
+      $('d-coast').textContent = fmtPct(Math.max(0, kCurrent / coast), 0);
       $('d-coast-sub').textContent = `${fmt(coast - kCurrent)} more to reach Coast FI (${fmt(coast)})`;
     }
     $('d-coast-note').textContent = hasNW ? 'Uses your tracker net worth.' : '';

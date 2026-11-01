@@ -25,7 +25,11 @@
   const scale = () => FI.currencyInfo().scale;
   const ladder = () => BASE_LADDER.map((v) => v * scale());
   const rate = () => Math.max(0.1, data.rate) / 100;
-  const today = () => new Date().toISOString().slice(0, 10);
+  // Local date (not UTC), so entries saved just after midnight get today's date
+  const today = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  };
 
   function sortedHistory() {
     return [...data.history].sort((a, b) => a.date.localeCompare(b.date));
@@ -124,7 +128,7 @@
     const nw = netWorth();
     const r = rate();
     const steps = ladder();
-    const yearly = nw * r;
+    const yearly = Math.max(0, nw) * r; // debt pays for nothing
     const reachedCount = steps.filter((v) => nw >= v).length;
     const nextIdx = steps.findIndex((v) => nw < v);
 
@@ -155,8 +159,9 @@
     }
     $('t-reached-count').textContent = `${reachedCount} of ${steps.length} milestones reached`;
     const top = steps[steps.length - 1];
-    $('t-total-pct').textContent = fmtPct(Math.min(1, nw / top), 1);
-    $('t-total-bar').style.width = `${Math.min(100, (nw / top) * 100)}%`;
+    const totalPct = Math.max(0, Math.min(1, nw / top));
+    $('t-total-pct').textContent = fmtPct(totalPct, 1);
+    $('t-total-bar').style.width = `${totalPct * 100}%`;
   }
 
   /* ---------- Costs ---------- */
@@ -226,7 +231,7 @@
     b.textContent = `${coveredCount} of ${costs.length} costs covered.`;
     summary.append(
       b,
-      ` Together your costs are ${fmt(totalYearly)} a year, so covering all of them takes ${fmt(target)} invested. You're ${fmtPct(Math.min(1, nw / target), 1)} of the way there.`
+      ` Together your costs are ${fmt(totalYearly)} a year, so covering all of them takes ${fmt(target)} invested. You're ${fmtPct(Math.max(0, Math.min(1, nw / target)), 1)} of the way there.`
     );
   }
 
@@ -241,7 +246,7 @@
 
     [...h].reverse().forEach((e) => {
       const tr = document.createElement('tr');
-      [e.date, fmt(e.amount), fmt(e.amount * r)].forEach((text, idx) => {
+      [e.date, fmt(e.amount), fmt(Math.max(0, e.amount) * r)].forEach((text, idx) => {
         const td = document.createElement('td');
         td.textContent = text;
         if (idx) td.className = 'num';
@@ -281,29 +286,55 @@
   }
 
   /* ---------- Events ---------- */
-  function saveNetWorth() {
-    const raw = $('t-networth').value;
-    const amount = parseFloat(raw);
-    if (raw === '' || !Number.isFinite(amount) || amount < 0) {
-      $('t-networth').focus();
-      FI.toast('Enter your current net worth first');
-      return;
-    }
+  const shortDate = (iso) => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+
+  /** Save an amount for the chosen date and tell the user what changed. */
+  function record(amount) {
     const date = $('t-date').value || today();
-    const before = ladder().filter((v) => netWorth() >= v).length;
+    const steps = ladder();
+    const before = steps.filter((v) => netWorth() >= v).length;
     data.history = data.history.filter((e) => e.date !== date);
     data.history.push({ date, amount });
     save();
-    const steps = ladder();
     const after = steps.filter((v) => netWorth() >= v).length;
+    $('t-networth').value = netWorth();
     renderAll();
-    if (after > before) {
+
+    const latest = sortedHistory()[data.history.length - 1];
+    if (latest.date !== date) {
+      FI.toast(`Saved for ${shortDate(date)}. Your current net worth is still your newest entry (${shortDate(latest.date)}).`);
+    } else if (after > before) {
       const i = after - 1;
       const label = labelFor(i);
       FI.toast(`🎉 Milestone ${fmt(steps[i])} reached. You can now pay for ${fmt(steps[i] * rate())} a year${label ? `: ${label}` : ''}`);
+    } else if (after < before) {
+      FI.toast(`Saved. You're now below the ${fmt(steps[before - 1])} milestone. It'll come back!`);
     } else {
       FI.toast('Saved');
     }
+  }
+
+  function saveNetWorth() {
+    const raw = $('t-networth').value;
+    const amount = parseFloat(raw);
+    if (raw === '' || !Number.isFinite(amount)) {
+      $('t-networth').focus();
+      FI.toast('Enter your net worth as a number first');
+      return;
+    }
+    record(amount);
+  }
+
+  function adjust(sign) {
+    const raw = $('t-adjust').value;
+    const delta = Math.abs(parseFloat(raw));
+    if (raw === '' || !Number.isFinite(delta) || delta === 0) {
+      $('t-adjust').focus();
+      FI.toast(`Enter an amount to ${sign > 0 ? 'add' : 'subtract'} first`);
+      return;
+    }
+    record(netWorth() + sign * delta);
+    $('t-adjust').value = '';
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -315,6 +346,8 @@
     renderAll();
 
     $('t-save').addEventListener('click', saveNetWorth);
+    $('t-add').addEventListener('click', () => adjust(1));
+    $('t-subtract').addEventListener('click', () => adjust(-1));
     $('t-networth').addEventListener('keydown', (e) => {
       if (e.key === 'Enter') saveNetWorth();
     });

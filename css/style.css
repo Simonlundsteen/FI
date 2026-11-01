@@ -545,3 +545,5 @@ footer {
 }
 /* Let grid cards shrink on very small screens instead of overflowing */
 .two-col > *, .tracker-top > *, .calc-grid > *, .dash-grid > *, .dash-hero > * { min-width: 0; }
+
+.adjust-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
