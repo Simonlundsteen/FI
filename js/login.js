@@ -38,7 +38,11 @@
     if (/invalid login credentials/i.test(m)) return 'Wrong email or password.';
     if (/email not confirmed/i.test(m)) return 'Please confirm your email first. Check your inbox for the link.';
     if (/already registered/i.test(m)) return 'An account with this email already exists. Try logging in.';
-    if (/rate limit|too many/i.test(m)) return 'Too many attempts. Please wait a minute and try again.';
+    // Supabase's built-in email service only sends a few emails per hour on the free plan
+    if ((error && error.code === 'over_email_send_rate_limit') || /email rate limit/i.test(m)) {
+      return "We can't send more emails right now (the hourly limit has been reached). Please try again in about an hour.";
+    }
+    if (/rate limit|too many/i.test(m)) return 'Too many attempts. Please wait a few minutes and try again.';
     if (/failed to fetch|network/i.test(m)) return "Couldn't reach the server. Check your connection.";
     return m;
   }
