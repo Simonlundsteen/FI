@@ -291,6 +291,13 @@
   /** Save an amount for the chosen date and tell the user what changed. */
   function record(amount) {
     const date = $('t-date').value || today();
+    // Net worth can't be recorded for a day that hasn't happened yet
+    if (date > today()) {
+      $('t-date').value = today();
+      $('t-date').max = today();
+      FI.toast("You can't save a net worth for a future date. The date is reset to today.");
+      return false;
+    }
     const steps = ladder();
     const before = steps.filter((v) => netWorth() >= v).length;
     data.history = data.history.filter((e) => e.date !== date);
@@ -333,12 +340,14 @@
       FI.toast(`Enter an amount to ${sign > 0 ? 'add' : 'subtract'} first`);
       return;
     }
-    record(netWorth() + sign * delta);
-    $('t-adjust').value = '';
+    if (record(netWorth() + sign * delta) !== false) $('t-adjust').value = '';
   }
 
   document.addEventListener('DOMContentLoaded', () => {
     $('t-date').value = today();
+    $('t-date').max = today();
+    // keep the limit right if the page stays open past midnight
+    $('t-date').addEventListener('focus', () => ($('t-date').max = today()));
     $('t-rate').value = data.rate;
     if (data.history.length) $('t-networth').value = netWorth();
 
