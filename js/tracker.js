@@ -348,6 +348,13 @@
     $('t-date').max = today();
     // keep the limit right if the page stays open past midnight
     $('t-date').addEventListener('focus', () => ($('t-date').max = today()));
+    // Some browsers (e.g. Safari on iPhone) ignore "max", so check as soon as a date is picked
+    $('t-date').addEventListener('change', () => {
+      if ($('t-date').value > today()) {
+        $('t-date').value = today();
+        FI.toast("Net worth can't be saved for a future date, so the date is set to today.");
+      }
+    });
     $('t-rate').value = data.rate;
     if (data.history.length) $('t-networth').value = netWorth();
 
