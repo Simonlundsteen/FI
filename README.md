@@ -26,8 +26,8 @@ currency are saved to your account and sync across devices. Everyone who signs u
    **Project URL** and the **anon / publishable** key into [`js/config.js`](js/config.js).
    The anon key is meant to be public. Never use the `service_role` / secret key.
 4. **Allow the login emails to link back to the site:** in Supabase open **Authentication → URL Configuration**:
-   - **Site URL:** `https://simonlundsteen.github.io/fi/`
-   - **Redirect URLs:** add `https://simonlundsteen.github.io/fi/login.html`
+   - **Site URL:** `https://simonlundsteen.github.io/FI/`
+   - **Redirect URLs:** add `https://simonlundsteen.github.io/FI/login.html`
 5. **Make yourself admin** (so you can write blog posts): sign up on the site, confirm your email, then run
    this in the SQL Editor with your own email:
    ```sql
