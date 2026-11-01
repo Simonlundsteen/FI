@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My FI Tracker – the 4% rule, milestone by milestone</title>
+  <meta name="description" content="Track your net worth against milestones and see which costs in your life each milestone can pay for, using the 4% rule." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html">Free<span>dom</span> Number</a>
+      <nav class="nav">
+        <a href="index.html">Overview &amp; calculators</a>
+        <a href="tracker.html" class="active">My tracker</a>
+      </nav>
+      <label class="currency-picker">
+        <span class="label-text">Currency</span>
+        <select data-currency-select aria-label="Currency"></select>
+      </label>
+    </div>
+  </header>
+
+  <main class="container">
+    <section style="padding-bottom:16px">
+      <span class="eyebrow">My tracker</span>
+      <h2 style="font-size:clamp(1.8rem,4vw,2.4rem)">Every milestone pays for something, for life.</h2>
+      <p class="section-intro">
+        By the 4% rule, every amount you invest can pay for a yearly cost of 4% of that amount, for good.
+        At 10,000 you can afford 400 a year, like a brunch for two, without ever touching the principal.
+        Enter your net worth, name what each milestone pays for, and watch your life get funded piece by piece.
+      </p>
+    </section>
+
+    <!-- ---------- Status ---------- -->
+    <div class="tracker-top">
+      <div class="card">
+        <div class="field">
+          <label for="t-networth">Current invested net worth <span class="unit" data-currency-code>DKK</span></label>
+          <input id="t-networth" type="number" min="0" step="1000" placeholder="e.g. 85000" />
+        </div>
+        <div class="field">
+          <label for="t-date">Date</label>
+          <input id="t-date" type="date" />
+        </div>
+        <button class="btn btn-primary" id="t-save" style="width:100%">Save net worth</button>
+        <div class="field" style="margin-top:18px">
+          <label for="t-rate">Withdrawal rate <span class="unit">%</span></label>
+          <input id="t-rate" type="number" min="1" max="10" step="0.1" value="4" />
+          <div class="hint">4% is the classic rule. Use 3–3.5% to be safer.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="calc-desc" style="margin:0">Your money can pay for</div>
+        <div class="big-number" id="t-sustain">–</div>
+        <div class="sustain-line" id="t-sustain-line"></div>
+
+        <div style="margin-top:22px">
+          <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <strong id="t-next-title">Next milestone</strong>
+            <span class="calc-desc" style="margin:0" id="t-next-pct"></span>
+          </div>
+          <div class="progress"><div id="t-next-bar" style="width:0"></div></div>
+          <div class="progress-meta">
+            <span id="t-next-left"></span>
+            <span id="t-reached-count"></span>
+          </div>
+        </div>
+        <div class="progress-meta" style="margin-top:14px">
+          <span>Progress to 10 million milestone</span>
+          <span id="t-total-pct"></span>
+        </div>
+        <div class="progress" style="height:8px"><div id="t-total-bar" style="width:0"></div></div>
+      </div>
+    </div>
+
+    <!-- ---------- Milestones ---------- -->
+    <section style="padding-top:20px">
+      <h2>Milestones</h2>
+      <p class="section-intro">
+        Close together at the start so you hit them often, then further apart as you grow.
+        Write what each one pays for. It saves automatically.
+      </p>
+      <div class="ladder" id="t-ladder"></div>
+    </section>
+
+    <!-- ---------- Costs ---------- -->
+    <section>
+      <h2>My costs in life</h2>
+      <p class="section-intro">
+        List the costs you want your investments to cover. Each one needs a set amount invested
+        (yearly cost ÷ withdrawal rate). They're sorted from cheapest to most expensive and covered in that order.
+      </p>
+      <div class="card">
+        <form class="cost-form" id="cost-form">
+          <div class="field">
+            <label for="cost-name">What</label>
+            <input id="cost-name" type="text" placeholder="e.g. Brunch with my wife" required maxlength="80" />
+          </div>
+          <div class="field">
+            <label for="cost-amount">Amount <span class="unit" data-currency-code>DKK</span></label>
+            <input id="cost-amount" type="number" min="0" step="any" placeholder="400" required />
+          </div>
+          <div class="field">
+            <label for="cost-period">Per</label>
+            <select id="cost-period">
+              <option value="year">Year</option>
+              <option value="month">Month</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" type="submit">Add</button>
+        </form>
+
+        <table class="data" id="cost-table">
+          <thead>
+            <tr>
+              <th>Cost</th>
+              <th class="num">Per year</th>
+              <th class="num">Needs invested</th>
+              <th class="num">Cumulative</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="empty" id="cost-empty">No costs yet. Add your first one above.</div>
+        <div class="callout" id="cost-summary" style="margin-top:16px"></div>
+      </div>
+    </section>
+
+    <!-- ---------- History ---------- -->
+    <section>
+      <h2>Net worth history</h2>
+      <div class="two-col">
+        <div class="card">
+          <canvas class="chart" id="t-chart"></canvas>
+        </div>
+        <div class="card">
+          <table class="data" id="hist-table">
+            <thead><tr><th>Date</th><th class="num">Net worth</th><th class="num">Pays for / year</th><th></th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <div class="empty" id="hist-empty">Save your net worth above to start your history.</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h3 style="margin-top:0">Your data</h3>
+        <p class="calc-desc">
+          Everything is saved only in this browser, and nothing is sent anywhere. Export a backup
+          to move your tracker to another device. Switching currency doesn't convert your saved amounts.
+        </p>
+        <div class="btn-row">
+          <button class="btn btn-ghost btn-small" id="t-export">Export backup</button>
+          <label class="btn btn-ghost btn-small">
+            Import backup <input type="file" id="t-import" accept="application/json" hidden />
+          </label>
+          <button class="btn btn-danger btn-small" id="t-reset">Reset tracker</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      For education only, not financial advice. The 4% rule is a historical rule of thumb, not a guarantee.
+    </div>
+  </footer>
+
+  <script src="js/common.js"></script>
+  <script src="js/tracker.js"></script>
+</body>
+</html>

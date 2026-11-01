@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Financial Independence – Overview &amp; Calculators</title>
+  <meta name="description" content="A short introduction to financial independence (FI), the 4% rule, and calculators for your FI number, years to FI, savings rate, compound growth and Coast FI." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="logo" href="index.html">Free<span>dom</span> Number</a>
+      <nav class="nav">
+        <a href="index.html" class="active">Overview &amp; calculators</a>
+        <a href="tracker.html">My tracker</a>
+      </nav>
+      <label class="currency-picker">
+        <span class="label-text">Currency</span>
+        <select data-currency-select aria-label="Currency"></select>
+      </label>
+    </div>
+  </header>
+
+  <main>
+    <!-- ---------- Intro ---------- -->
+    <section class="hero">
+      <div class="container">
+        <span class="eyebrow">Financial independence</span>
+        <h1>Work because you want to, not because you have to.</h1>
+        <p class="lead">
+          Financial independence (FI) means your investments can cover your living costs
+          indefinitely. Paid work becomes optional. You get there by spending less than
+          you earn, investing the difference, and reaching one number: your FI number.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="#calculators">Calculate your FI number</a>
+          <a class="btn btn-ghost" href="tracker.html">Open my tracker</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works">
+      <div class="container">
+        <h2>How FI works</h2>
+        <p class="section-intro">Four ideas cover almost everything you need to know.</p>
+
+        <div class="concepts">
+          <div class="concept">
+            <div class="num">1</div>
+            <h3>Know your spending</h3>
+            <p>Your FI number depends on what you spend each year, not what you earn. Lower costs mean a lower target.</p>
+          </div>
+          <div class="concept">
+            <div class="num">2</div>
+            <h3>The 4% rule</h3>
+            <p>Historically, a diversified portfolio has supported withdrawing about 4% of its starting value each year, adjusted for inflation, for 30+ years.</p>
+          </div>
+          <div class="concept">
+            <div class="num">3</div>
+            <h3>Savings rate is the lever</h3>
+            <p>The share of income you save decides how fast you get there. It both grows your investments and shrinks the target.</p>
+          </div>
+          <div class="concept">
+            <div class="num">4</div>
+            <h3>Let compounding work</h3>
+            <p>Invested money earns returns, and those returns earn returns. Starting early matters more than starting big.</p>
+          </div>
+        </div>
+
+        <div class="formula">
+          <strong>How to calculate your FI number</strong>
+          <code>FI number = yearly expenses ÷ 0.04 &nbsp;=&nbsp; yearly expenses × 25</code>
+          <p>
+            For example, if you spend 300,000 a year you need about 7,500,000 invested.
+            Flip it around and every amount you invest supports a yearly cost of 4% of that amount:
+            10,000 invested can pay for 400 a year, for good.
+          </p>
+        </div>
+
+        <div class="callout">
+          <strong>Keep in mind:</strong> the 4% rule comes from historical US market data. It's a
+          planning rule of thumb, not a guarantee. Many people use 3–3.5% for early retirement
+          or extra safety. Taxes on investment income (for example Danish <em>aktieindkomst</em>)
+          and fees also matter. This site is educational and not financial advice.
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- Calculators ---------- -->
+    <section id="calculators">
+      <div class="container">
+        <h2>Calculators</h2>
+        <p class="section-intro">
+          All amounts are in <strong data-currency-code>DKK</strong>. Change the currency in the top
+          right. Returns are <em>real</em> returns, meaning after inflation, so results are in today's money.
+        </p>
+
+        <div class="tabs" role="tablist">
+          <button class="tab active" data-tab="calc-fi" role="tab">FI number</button>
+          <button class="tab" data-tab="calc-years" role="tab">Years to FI</button>
+          <button class="tab" data-tab="calc-rate" role="tab">Savings rate</button>
+          <button class="tab" data-tab="calc-compound" role="tab">Compound growth</button>
+          <button class="tab" data-tab="calc-coast" role="tab">Coast FI</button>
+        </div>
+
+        <!-- FI number -->
+        <div class="calc card active" id="calc-fi">
+          <div class="calc-grid">
+            <div>
+              <p class="calc-desc">How much do you need invested to cover your costs for good?</p>
+              <div class="field">
+                <label for="fi-monthly">Monthly expenses <span class="unit" data-currency-code>DKK</span></label>
+                <input id="fi-monthly" type="number" min="0" step="500" value="25000" />
+              </div>
+              <div class="field">
+                <label for="fi-rate">Withdrawal rate <span class="unit">%</span></label>
+                <input id="fi-rate" type="number" min="1" max="10" step="0.1" value="4" />
+                <div class="hint">4% is the classic rule. 3–3.5% is more conservative.</div>
+              </div>
+            </div>
+            <div class="results">
+              <div class="result-main">
+                <div class="label">Your FI number</div>
+                <div class="value" id="fi-out">–</div>
+                <div class="sub" id="fi-sub"></div>
+              </div>
+              <div class="stats">
+                <div class="stat"><div class="label">Yearly expenses</div><div class="value" id="fi-yearly">–</div></div>
+                <div class="stat"><div class="label">Multiple of expenses</div><div class="value" id="fi-mult">–</div></div>
+                <div class="stat"><div class="label">At 3.5% instead</div><div class="value" id="fi-alt">–</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Years to FI -->
+        <div class="calc card" id="calc-years">
+          <div class="calc-grid">
+            <div>
+              <p class="calc-desc">How long until your investments reach your FI number?</p>
+              <div class="field">
+                <label for="y-current">Invested today <span class="unit" data-currency-code>DKK</span></label>
+                <input id="y-current" type="number" min="0" step="10000" value="200000" />
+              </div>
+              <div class="field">
+                <label for="y-saving">Invested per month <span class="unit" data-currency-code>DKK</span></label>
+                <input id="y-saving" type="number" min="0" step="500" value="10000" />
+              </div>
+              <div class="field">
+                <label for="y-expenses">Monthly expenses in FI <span class="unit" data-currency-code>DKK</span></label>
+                <input id="y-expenses" type="number" min="0" step="500" value="25000" />
+              </div>
+              <div class="field">
+                <label for="y-return">Expected real return <span class="unit">% / year</span></label>
+                <input id="y-return" type="number" min="0" max="15" step="0.1" value="5" />
+              </div>
+              <div class="field">
+                <label for="y-rate">Withdrawal rate <span class="unit">%</span></label>
+                <input id="y-rate" type="number" min="1" max="10" step="0.1" value="4" />
+              </div>
+              <div class="field">
+                <label for="y-age">Your age today <span class="unit">optional</span></label>
+                <input id="y-age" type="number" min="0" max="100" step="1" value="30" />
+              </div>
+            </div>
+            <div class="results">
+              <div class="result-main">
+                <div class="label">Time to FI</div>
+                <div class="value" id="y-out">–</div>
+                <div class="sub" id="y-sub"></div>
+              </div>
+              <div class="stats">
+                <div class="stat"><div class="label">FI number</div><div class="value" id="y-target">–</div></div>
+                <div class="stat"><div class="label">You invest in total</div><div class="value" id="y-contrib">–</div></div>
+                <div class="stat"><div class="label">Growth from returns</div><div class="value" id="y-growth">–</div></div>
+              </div>
+              <canvas class="chart" id="y-chart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Savings rate -->
+        <div class="calc card" id="calc-rate">
+          <div class="calc-grid">
+            <div>
+              <p class="calc-desc">What share of your income do you save, and what does that mean for your timeline?</p>
+              <div class="field">
+                <label for="r-income">Monthly take-home pay <span class="unit" data-currency-code>DKK</span></label>
+                <input id="r-income" type="number" min="0" step="500" value="35000" />
+              </div>
+              <div class="field">
+                <label for="r-spend">Monthly spending <span class="unit" data-currency-code>DKK</span></label>
+                <input id="r-spend" type="number" min="0" step="500" value="25000" />
+              </div>
+              <div class="field">
+                <label for="r-return">Expected real return <span class="unit">% / year</span></label>
+                <input id="r-return" type="number" min="0" max="15" step="0.1" value="5" />
+              </div>
+              <div class="hint">The table assumes you start from zero and use the 4% rule.</div>
+            </div>
+            <div class="results">
+              <div class="result-main">
+                <div class="label">Your savings rate</div>
+                <div class="value" id="r-out">–</div>
+                <div class="sub" id="r-sub"></div>
+              </div>
+              <table class="data" id="r-table">
+                <thead><tr><th>Savings rate</th><th class="num">Years to FI (from zero)</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compound growth -->
+        <div class="calc card" id="calc-compound">
+          <div class="calc-grid">
+            <div>
+              <p class="calc-desc">See how regular investing grows over time.</p>
+              <div class="field">
+                <label for="c-start">Starting amount <span class="unit" data-currency-code>DKK</span></label>
+                <input id="c-start" type="number" min="0" step="10000" value="50000" />
+              </div>
+              <div class="field">
+                <label for="c-monthly">Monthly contribution <span class="unit" data-currency-code>DKK</span></label>
+                <input id="c-monthly" type="number" min="0" step="500" value="5000" />
+              </div>
+              <div class="field">
+                <label for="c-return">Expected real return <span class="unit">% / year</span></label>
+                <input id="c-return" type="number" min="0" max="15" step="0.1" value="5" />
+              </div>
+              <div class="field">
+                <label for="c-years">Years <span class="unit">years</span></label>
+                <input id="c-years" type="number" min="1" max="70" step="1" value="25" />
+              </div>
+            </div>
+            <div class="results">
+              <div class="result-main">
+                <div class="label">Value after <span id="c-years-label">25</span> years</div>
+                <div class="value" id="c-out">–</div>
+                <div class="sub" id="c-sub"></div>
+              </div>
+              <div class="stats">
+                <div class="stat"><div class="label">You put in</div><div class="value" id="c-contrib">–</div></div>
+                <div class="stat"><div class="label">Returns earned</div><div class="value" id="c-growth">–</div></div>
+                <div class="stat"><div class="label">Pays for (4%) / year</div><div class="value" id="c-sustain">–</div></div>
+              </div>
+              <canvas class="chart" id="c-chart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Coast FI -->
+        <div class="calc card" id="calc-coast">
+          <div class="calc-grid">
+            <div>
+              <p class="calc-desc">
+                Coast FI is when you've invested enough that, with no more saving, compounding alone
+                reaches your FI number by retirement age. After that you only need to cover today's costs.
+              </p>
+              <div class="field">
+                <label for="k-age">Your age today</label>
+                <input id="k-age" type="number" min="0" max="100" step="1" value="30" />
+              </div>
+              <div class="field">
+                <label for="k-retire">Retirement age</label>
+                <input id="k-retire" type="number" min="1" max="100" step="1" value="60" />
+              </div>
+              <div class="field">
+                <label for="k-current">Invested today <span class="unit" data-currency-code>DKK</span></label>
+                <input id="k-current" type="number" min="0" step="10000" value="300000" />
+              </div>
+              <div class="field">
+                <label for="k-expenses">Monthly expenses in retirement <span class="unit" data-currency-code>DKK</span></label>
+                <input id="k-expenses" type="number" min="0" step="500" value="25000" />
+              </div>
+              <div class="field">
+                <label for="k-return">Expected real return <span class="unit">% / year</span></label>
+                <input id="k-return" type="number" min="0" max="15" step="0.1" value="5" />
+              </div>
+              <div class="field">
+                <label for="k-rate">Withdrawal rate <span class="unit">%</span></label>
+                <input id="k-rate" type="number" min="1" max="10" step="0.1" value="4" />
+              </div>
+            </div>
+            <div class="results">
+              <div class="result-main">
+                <div class="label">Your Coast FI number today</div>
+                <div class="value" id="k-out">–</div>
+                <div class="sub" id="k-sub"></div>
+              </div>
+              <div class="stats">
+                <div class="stat"><div class="label">FI number at retirement</div><div class="value" id="k-target">–</div></div>
+                <div class="stat"><div class="label">Your money grows to</div><div class="value" id="k-future">–</div></div>
+                <div class="stat"><div class="label">Progress to Coast FI</div><div class="value" id="k-progress">–</div></div>
+              </div>
+              <canvas class="chart" id="k-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap">
+          <div>
+            <h2 style="margin:0 0 4px">Turn your savings into things you can pay for for life</h2>
+            <p class="calc-desc" style="margin:0">Track your net worth against milestones from 10,000 to 10,000,000 and see which costs each one covers with the 4% rule.</p>
+          </div>
+          <a class="btn btn-primary" href="tracker.html">Open my tracker →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      For education only, not financial advice. Calculations use constant real returns and can't predict
+      actual market results. Your data and settings stay in your browser.
+    </div>
+  </footer>
+
+  <script src="js/common.js"></script>
+  <script src="js/calculators.js"></script>
+</body>
+</html>
