@@ -6,7 +6,7 @@
   <title>Financial Independence – Overview &amp; Calculators</title>
   <meta name="description" content="A short introduction to financial independence (FI), the 4% rule, and calculators for your FI number, years to FI, savings rate, compound growth and Coast FI." />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="css/style.css?v=20261101c" />
+  <link rel="stylesheet" href="css/style.css?v=20261111a" />
 </head>
 <body>
   <header class="site-header">
@@ -76,17 +76,18 @@
           <strong>How to calculate your FI number</strong>
           <code>FI number = yearly expenses ÷ 0.04 &nbsp;=&nbsp; yearly expenses × 25</code>
           <p>
-            For example, if you spend 300,000 a year you need about 7,500,000 invested.
+            For example, if you spend $40,000 a year you need about $1,000,000 invested.
             Flip it around and every amount you invest supports a yearly cost of 4% of that amount:
-            10,000 invested can pay for 400 a year, for good.
+            $1,000 invested can pay for $40 a year, for good.
           </p>
         </div>
 
         <div class="callout">
           <strong>Keep in mind:</strong> the 4% rule comes from historical US market data. It's a
           planning rule of thumb, not a guarantee. Many people use 3–3.5% for early retirement
-          or extra safety. Taxes on investment income (for example Danish <em>aktieindkomst</em>)
-          and fees also matter. This site is educational and not financial advice.
+          or extra safety. Taxes and fees also matter: tax-advantaged accounts like a 401(k),
+          IRA, Roth IRA and HSA can make a big difference to how much you keep.
+          This site is educational and not financial or tax advice.
         </div>
       </div>
     </section>
@@ -96,7 +97,7 @@
       <div class="container">
         <h2>Calculators</h2>
         <p class="section-intro">
-          All amounts are in <strong data-currency-code>DKK</strong>. Change the currency in the top
+          All amounts are in <strong data-currency-code>USD</strong>. Change the currency in the top
           right. Returns are <em>real</em> returns, meaning after inflation, so results are in today's money.
         </p>
 
@@ -114,8 +115,8 @@
             <div>
               <p class="calc-desc">How much do you need invested to cover your costs for good?</p>
               <div class="field">
-                <label for="fi-monthly">Monthly expenses <span class="unit" data-currency-code>DKK</span></label>
-                <input id="fi-monthly" type="number" min="0" step="500" value="25000" />
+                <label for="fi-monthly">Monthly expenses <span class="unit" data-currency-code>USD</span></label>
+                <input id="fi-monthly" type="number" min="0" step="100" value="4000" />
               </div>
               <div class="field">
                 <label for="fi-rate">Withdrawal rate <span class="unit">%</span></label>
@@ -144,16 +145,16 @@
             <div>
               <p class="calc-desc">How long until your investments reach your FI number?</p>
               <div class="field">
-                <label for="y-current">Invested today <span class="unit" data-currency-code>DKK</span></label>
-                <input id="y-current" type="number" min="0" step="10000" value="200000" />
+                <label for="y-current">Invested today <span class="unit" data-currency-code>USD</span></label>
+                <input id="y-current" type="number" min="0" step="1000" value="50000" />
               </div>
               <div class="field">
-                <label for="y-saving">Invested per month <span class="unit" data-currency-code>DKK</span></label>
-                <input id="y-saving" type="number" min="0" step="500" value="10000" />
+                <label for="y-saving">Invested per month <span class="unit" data-currency-code>USD</span></label>
+                <input id="y-saving" type="number" min="0" step="100" value="1500" />
               </div>
               <div class="field">
-                <label for="y-expenses">Monthly expenses in FI <span class="unit" data-currency-code>DKK</span></label>
-                <input id="y-expenses" type="number" min="0" step="500" value="25000" />
+                <label for="y-expenses">Monthly expenses in FI <span class="unit" data-currency-code>USD</span></label>
+                <input id="y-expenses" type="number" min="0" step="100" value="4000" />
               </div>
               <div class="field">
                 <label for="y-return">Expected real return <span class="unit">% / year</span></label>
@@ -190,12 +191,12 @@
             <div>
               <p class="calc-desc">What share of your income do you save, and what does that mean for your timeline?</p>
               <div class="field">
-                <label for="r-income">Monthly take-home pay <span class="unit" data-currency-code>DKK</span></label>
-                <input id="r-income" type="number" min="0" step="500" value="35000" />
+                <label for="r-income">Monthly take-home pay <span class="unit" data-currency-code>USD</span></label>
+                <input id="r-income" type="number" min="0" step="100" value="6000" />
               </div>
               <div class="field">
-                <label for="r-spend">Monthly spending <span class="unit" data-currency-code>DKK</span></label>
-                <input id="r-spend" type="number" min="0" step="500" value="25000" />
+                <label for="r-spend">Monthly spending <span class="unit" data-currency-code>USD</span></label>
+                <input id="r-spend" type="number" min="0" step="100" value="4000" />
               </div>
               <div class="field">
                 <label for="r-return">Expected real return <span class="unit">% / year</span></label>
@@ -223,12 +224,12 @@
             <div>
               <p class="calc-desc">See how regular investing grows over time.</p>
               <div class="field">
-                <label for="c-start">Starting amount <span class="unit" data-currency-code>DKK</span></label>
-                <input id="c-start" type="number" min="0" step="10000" value="50000" />
+                <label for="c-start">Starting amount <span class="unit" data-currency-code>USD</span></label>
+                <input id="c-start" type="number" min="0" step="1000" value="10000" />
               </div>
               <div class="field">
-                <label for="c-monthly">Monthly contribution <span class="unit" data-currency-code>DKK</span></label>
-                <input id="c-monthly" type="number" min="0" step="500" value="5000" />
+                <label for="c-monthly">Monthly contribution <span class="unit" data-currency-code>USD</span></label>
+                <input id="c-monthly" type="number" min="0" step="50" value="500" />
               </div>
               <div class="field">
                 <label for="c-return">Expected real return <span class="unit">% / year</span></label>
@@ -272,12 +273,12 @@
                 <input id="k-retire" type="number" min="1" max="100" step="1" value="60" />
               </div>
               <div class="field">
-                <label for="k-current">Invested today <span class="unit" data-currency-code>DKK</span></label>
-                <input id="k-current" type="number" min="0" step="10000" value="300000" />
+                <label for="k-current">Invested today <span class="unit" data-currency-code>USD</span></label>
+                <input id="k-current" type="number" min="0" step="1000" value="100000" />
               </div>
               <div class="field">
-                <label for="k-expenses">Monthly expenses in retirement <span class="unit" data-currency-code>DKK</span></label>
-                <input id="k-expenses" type="number" min="0" step="500" value="25000" />
+                <label for="k-expenses">Monthly expenses in retirement <span class="unit" data-currency-code>USD</span></label>
+                <input id="k-expenses" type="number" min="0" step="100" value="4000" />
               </div>
               <div class="field">
                 <label for="k-return">Expected real return <span class="unit">% / year</span></label>
@@ -311,7 +312,7 @@
         <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap">
           <div>
             <h2 style="margin:0 0 4px">Turn your savings into things you can pay for for life</h2>
-            <p class="calc-desc" style="margin:0">Track your net worth against milestones from 10,000 to 10,000,000 and see which costs each one covers with the 4% rule.</p>
+            <p class="calc-desc" style="margin:0">Track your net worth against milestones from $1,000 to $1,000,000 and see which costs each one covers with the 4% rule.</p>
           </div>
           <a class="btn btn-primary" href="tracker.html">Open my tracker →</a>
         </div>
@@ -326,10 +327,10 @@
     </div>
   </footer>
 
-  <script src="js/vendor/supabase.js?v=20261101c"></script>
-  <script src="js/config.js?v=20261101c"></script>
-  <script src="js/common.js?v=20261101c"></script>
-  <script src="js/auth.js?v=20261101c"></script>
-  <script src="js/calculators.js?v=20261101c"></script>
+  <script src="js/vendor/supabase.js?v=20261111a"></script>
+  <script src="js/config.js?v=20261111a"></script>
+  <script src="js/common.js?v=20261111a"></script>
+  <script src="js/auth.js?v=20261111a"></script>
+  <script src="js/calculators.js?v=20261111a"></script>
 </body>
 </html>

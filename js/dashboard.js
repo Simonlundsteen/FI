@@ -5,11 +5,11 @@
 
   // Same starting values as the calculators on index.html
   const CALC_DEFAULTS = {
-    'fi-monthly': 25000, 'fi-rate': 4,
-    'y-current': 200000, 'y-saving': 10000, 'y-expenses': 25000, 'y-return': 5, 'y-rate': 4, 'y-age': 30,
-    'r-income': 35000, 'r-spend': 25000, 'r-return': 5,
-    'c-start': 50000, 'c-monthly': 5000, 'c-return': 5, 'c-years': 25,
-    'k-age': 30, 'k-retire': 60, 'k-current': 300000, 'k-expenses': 25000, 'k-return': 5, 'k-rate': 4,
+    'fi-monthly': 4000, 'fi-rate': 4,
+    'y-current': 50000, 'y-saving': 1500, 'y-expenses': 4000, 'y-return': 5, 'y-rate': 4, 'y-age': 30,
+    'r-income': 6000, 'r-spend': 4000, 'r-return': 5,
+    'c-start': 10000, 'c-monthly': 500, 'c-return': 5, 'c-years': 25,
+    'k-age': 30, 'k-retire': 60, 'k-current': 100000, 'k-expenses': 4000, 'k-return': 5, 'k-rate': 4,
   };
 
   function render() {

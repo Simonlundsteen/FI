@@ -4,16 +4,16 @@
   const { fmt, fmtPct, store } = FI;
   const KEY = 'fi.tracker';
 
-  /* ---------- Milestone ladder (in DKK-sized units, scaled for other currencies) ----------
+  /* ---------- Milestone ladder (in dollars, scaled for other currencies) ----------
      Close together at the start, then further apart:
-     10k, 25k, 50k, 75k, 100k → every 50k to 1M → every 250k to 2M → every 500k to 5M → every 1M to 10M */
+     $1k, $2.5k, $5k, $7.5k, $10k → every $5k to $100k → every $25k to $200k → every $50k to $500k → every $100k to $1M */
   const BASE_LADDER = FI.math.BASE_LADDER;
 
   const GROUPS = [
-    { upTo: 100e3, title: 'Getting started' },
-    { upTo: 1e6, title: 'Building momentum' },
-    { upTo: 5e6, title: 'Serious freedom' },
-    { upTo: 10e6, title: 'Financially independent territory' },
+    { upTo: 10e3, title: 'Getting started' },
+    { upTo: 100e3, title: 'Building momentum' },
+    { upTo: 500e3, title: 'Serious freedom' },
+    { upTo: 1e6, title: 'Financially independent territory' },
   ];
 
 

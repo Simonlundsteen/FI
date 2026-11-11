@@ -8,7 +8,7 @@ Accounts and the blog use [Supabase](https://supabase.com), which has a free pla
 | Page | What it does |
 | --- | --- |
 | `index.html` | A short introduction to FI and the 4% rule, plus five calculators: FI number, years to FI, savings rate, compound growth and Coast FI. |
-| `tracker.html` | Net worth tracker with 38 milestones from 10,000 to 10,000,000. Each one shows the yearly cost it can pay for under the 4% rule. Also covers your own costs and your net worth history. |
+| `tracker.html` | Net worth tracker with 38 milestones from $1,000 to $1,000,000 (scaled ×10 for kroner). Default currency is USD. Each one shows the yearly cost it can pay for under the 4% rule. Also covers your own costs and your net worth history. |
 | `dashboard.html` | An overview of your key numbers from the tracker and calculators. |
 | `blog.html` | The public blog. `blog.html?post=<link-name>` shows a single post. |
 | `blog-editor.html` | Write, upload (.md / .txt), edit, publish and delete posts, with image uploads. Admin only. |

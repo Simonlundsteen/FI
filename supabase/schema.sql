@@ -9,7 +9,7 @@ create table if not exists public.user_data (
   user_id     uuid primary key references auth.users (id) on delete cascade,
   tracker     jsonb not null default '{}'::jsonb,   -- net worth history, milestone labels, costs
   calculators jsonb not null default '{}'::jsonb,   -- last values typed into the calculators
-  currency    text  not null default 'DKK',
+  currency    text  not null default 'USD',
   updated_at  timestamptz not null default now()
 );
 

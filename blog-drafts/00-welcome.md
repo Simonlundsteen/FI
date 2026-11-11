@@ -34,7 +34,7 @@ To make the stories easy to compare, they all follow the same structure:
 
 ## Use the stories with the tools
 
-When a story inspires you, try it on your own numbers. Set the currency to **USD** in the top corner, then:
+When a story inspires you, try it on your own numbers:
 
 - Find your FI number and your timeline with the [calculators](index.html#calculators)
 - See which of your costs your savings already cover in the [tracker](tracker.html). Every $1,000 invested pays for $40 a year under the 4% rule, for good.

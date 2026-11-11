@@ -6,7 +6,7 @@
   <title>My FI Tracker – the 4% rule, milestone by milestone</title>
   <meta name="description" content="Track your net worth against milestones and see which costs in your life each milestone can pay for, using the 4% rule." />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="css/style.css?v=20261101c" />
+  <link rel="stylesheet" href="css/style.css?v=20261111a" />
 </head>
 <body>
   <header class="site-header">
@@ -32,7 +32,7 @@
       <h2 style="font-size:clamp(1.8rem,4vw,2.4rem)">Every milestone pays for something, for life.</h2>
       <p class="section-intro">
         By the 4% rule, every amount you invest can pay for a yearly cost of 4% of that amount, for good.
-        At 10,000 you can afford 400 a year, like a brunch for two, without ever touching the principal.
+        $1,000 invested pays for $40 a year, like a movie night for two, without ever touching the principal.
         Enter your net worth, name what each milestone pays for, and watch your life get funded piece by piece.
       </p>
     </section>
@@ -41,8 +41,8 @@
     <div class="tracker-top">
       <div class="card">
         <div class="field">
-          <label for="t-networth">Current invested net worth <span class="unit" data-currency-code>DKK</span></label>
-          <input id="t-networth" type="number" step="1000" placeholder="e.g. 85000" />
+          <label for="t-networth">Current invested net worth <span class="unit" data-currency-code>USD</span></label>
+          <input id="t-networth" type="number" step="1000" placeholder="e.g. 25000" />
         </div>
         <div class="field">
           <label for="t-date">Date</label>
@@ -50,8 +50,8 @@
         </div>
         <button class="btn btn-primary" id="t-save" style="width:100%">Save net worth</button>
         <div class="field" style="margin-top:18px">
-          <label for="t-adjust">Or add / subtract an amount <span class="unit" data-currency-code>DKK</span></label>
-          <input id="t-adjust" type="number" min="0" step="1000" placeholder="e.g. 5000" />
+          <label for="t-adjust">Or add / subtract an amount <span class="unit" data-currency-code>USD</span></label>
+          <input id="t-adjust" type="number" min="0" step="100" placeholder="e.g. 500" />
           <div class="hint">Adjusts your current net worth and saves it for the date above.</div>
         </div>
         <div class="btn-row adjust-row">
@@ -82,7 +82,7 @@
           </div>
         </div>
         <div class="progress-meta" style="margin-top:14px">
-          <span>Progress to 10 million milestone</span>
+          <span>Progress to the top milestone</span>
           <span id="t-total-pct"></span>
         </div>
         <div class="progress" style="height:8px"><div id="t-total-bar" style="width:0"></div></div>
@@ -110,11 +110,11 @@
         <form class="cost-form" id="cost-form">
           <div class="field">
             <label for="cost-name">What</label>
-            <input id="cost-name" type="text" placeholder="e.g. Brunch with my wife" required maxlength="80" />
+            <input id="cost-name" type="text" placeholder="e.g. Date night with my partner" required maxlength="80" />
           </div>
           <div class="field">
-            <label for="cost-amount">Amount <span class="unit" data-currency-code>DKK</span></label>
-            <input id="cost-amount" type="number" min="0" step="any" placeholder="400" required />
+            <label for="cost-amount">Amount <span class="unit" data-currency-code>USD</span></label>
+            <input id="cost-amount" type="number" min="0" step="any" placeholder="50" required />
           </div>
           <div class="field">
             <label for="cost-period">Per</label>
@@ -190,10 +190,10 @@
     </div>
   </footer>
 
-  <script src="js/vendor/supabase.js?v=20261101c"></script>
-  <script src="js/config.js?v=20261101c"></script>
-  <script src="js/common.js?v=20261101c"></script>
-  <script src="js/auth.js?v=20261101c"></script>
-  <script src="js/tracker.js?v=20261101c"></script>
+  <script src="js/vendor/supabase.js?v=20261111a"></script>
+  <script src="js/config.js?v=20261111a"></script>
+  <script src="js/common.js?v=20261111a"></script>
+  <script src="js/auth.js?v=20261111a"></script>
+  <script src="js/tracker.js?v=20261111a"></script>
 </body>
 </html>

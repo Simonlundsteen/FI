@@ -1,13 +1,15 @@
 /* Shared helpers: currency handling, formatting, storage and a small chart. */
 const FI = (() => {
   const CURRENCIES = {
-    DKK: { locale: 'da-DK', name: 'Danish krone', scale: 1 },
-    SEK: { locale: 'sv-SE', name: 'Swedish krona', scale: 1 },
-    NOK: { locale: 'nb-NO', name: 'Norwegian krone', scale: 1 },
-    EUR: { locale: 'de-DE', name: 'Euro', scale: 0.1 },
-    USD: { locale: 'en-US', name: 'US dollar', scale: 0.1 },
-    GBP: { locale: 'en-GB', name: 'British pound', scale: 0.1 },
-    CHF: { locale: 'de-CH', name: 'Swiss franc', scale: 0.1 },
+    // scale: how milestone amounts (defined in dollars) are sized in each currency
+    USD: { locale: 'en-US', name: 'US dollar', scale: 1 },
+    CAD: { locale: 'en-CA', name: 'Canadian dollar', scale: 1 },
+    EUR: { locale: 'de-DE', name: 'Euro', scale: 1 },
+    GBP: { locale: 'en-GB', name: 'British pound', scale: 1 },
+    CHF: { locale: 'de-CH', name: 'Swiss franc', scale: 1 },
+    DKK: { locale: 'da-DK', name: 'Danish krone', scale: 10 },
+    SEK: { locale: 'sv-SE', name: 'Swedish krona', scale: 10 },
+    NOK: { locale: 'nb-NO', name: 'Norwegian krone', scale: 10 },
   };
   const CURRENCY_KEY = 'fi.currency';
 
@@ -40,29 +42,29 @@ const FI = (() => {
 
   /* ---------- Shared finance math (used by calculators and dashboard) ---------- */
   const math = {
-    /* Milestones (DKK-sized; scaled by currency). Close together early, further apart later:
-       10k, 25k, 50k, 75k, 100k → every 50k to 1M → every 250k to 2M → every 500k to 5M → every 1M to 10M */
+    /* Milestones in dollars (scaled by currency). Close together early, further apart later:
+       $1k, $2.5k, $5k, $7.5k, $10k → every $5k to $100k → every $25k to $200k → every $50k to $500k → every $100k to $1M */
     BASE_LADDER: (() => {
-      const out = [10e3, 25e3, 50e3, 75e3, 100e3];
-      for (let v = 150e3; v <= 1e6; v += 50e3) out.push(v);
-      for (let v = 1.25e6; v <= 2e6; v += 0.25e6) out.push(v);
-      for (let v = 2.5e6; v <= 5e6; v += 0.5e6) out.push(v);
-      for (let v = 6e6; v <= 10e6; v += 1e6) out.push(v);
+      const out = [1e3, 2.5e3, 5e3, 7.5e3, 10e3];
+      for (let v = 15e3; v <= 100e3; v += 5e3) out.push(v);
+      for (let v = 125e3; v <= 200e3; v += 25e3) out.push(v);
+      for (let v = 250e3; v <= 500e3; v += 50e3) out.push(v);
+      for (let v = 600e3; v <= 1e6; v += 100e3) out.push(v);
       return out;
     })(),
 
-    // Suggested labels for the base amounts (yearly cost in DKK = 4%).
+    // Suggested labels for the base amounts (yearly cost = 4%: $1,000 → $40 a year).
     DEFAULT_LABELS: {
-      10e3: 'Brunch for two',
-      25e3: 'A nice dinner out',
-      50e3: 'Cinema trips for a year',
-      75e3: 'Concert tickets for two',
-      100e3: 'Streaming services for a year',
-      150e3: 'A weekend getaway',
-      200e3: 'Phone and internet for a year',
-      250e3: 'Christmas and birthday gifts',
-      500e3: 'A summer holiday',
-      1e6: 'Groceries for a year',
+      1e3: 'A movie night for two',
+      2.5e3: 'A nice dinner out',
+      5e3: 'Streaming subscriptions for a year',
+      7.5e3: 'Concert tickets for two',
+      10e3: 'A gym membership for a year',
+      15e3: 'A weekend getaway',
+      20e3: 'Home internet for a year',
+      25e3: 'Holiday and birthday gifts',
+      50e3: 'A summer vacation',
+      100e3: 'Groceries for one person for a year',
     },
 
     milestoneLabel(labels, i) {
@@ -97,9 +99,18 @@ const FI = (() => {
     },
   };
 
+  // Before the site defaulted to US dollars it defaulted to kroner. Anyone who saved
+  // tracker data back then without picking a currency keeps kroner, so their numbers
+  // aren't suddenly shown as dollars.
+  // New visitors get US dollars saved right away, so this check only ever catches
+  // data from before the switch.
+  if (store.get(CURRENCY_KEY, null) === null) {
+    store.set(CURRENCY_KEY, store.get('fi.tracker', null) !== null ? 'DKK' : 'USD', { silent: true });
+  }
+
   function getCurrency() {
-    const c = store.get(CURRENCY_KEY, 'DKK');
-    return CURRENCIES[c] ? c : 'DKK';
+    const c = store.get(CURRENCY_KEY, 'USD');
+    return CURRENCIES[c] ? c : 'USD';
   }
 
   function setCurrency(code, { silent = false } = {}) {
@@ -174,7 +185,7 @@ const FI = (() => {
       });
       sel.addEventListener('change', () => setCurrency(sel.value));
     });
-    // Short labels ("DKK") on phones, long ("DKK – Danish krone") elsewhere
+    // Short labels ("USD") on phones, long ("USD – US dollar") elsewhere
     const narrow = window.matchMedia('(max-width: 600px)');
     const label = () =>
       document.querySelectorAll('[data-currency-select] option').forEach((o) => {
