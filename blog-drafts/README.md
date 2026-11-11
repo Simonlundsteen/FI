@@ -17,30 +17,29 @@ Publish the welcome post first and the stories after it. The blog shows the newe
 
 | File | Suggested link name | Suggested short summary |
 | --- | --- | --- |
-| `00-welcome.md` | `welcome` | Why this blog exists: real FIRE stories from around the web, told so you can find ideas for your own journey. |
-| `01-mr-money-mustache.md` | `mr-money-mustache` | Two software engineers saved about 70% of their pay and retired at 30. The lesson: your savings rate is your timeline. |
-| `02-early-retirement-extreme.md` | `early-retirement-extreme` | A Danish astrophysicist lived in an RV, saved most of his postdoc pay and was free in his early thirties on $7,000 a year. |
-| `03-millennial-revolution.md` | `millennial-revolution` | She grew up poor in rural China. They skipped the Toronto house, invested the difference and retired at 31 with $1 million. |
-| `04-root-of-good.md` | `root-of-good` | A civil engineer on a modest salary saved 50%+ and retired at 33 to be a stay-at-home dad to three kids. |
-| `05-grant-sabatier.md` | `grant-sabatier` | From $2.26 in the bank to over $1.25 million in five years by focusing on income and side hustles. |
-| `06-mad-fientist.md` | `mad-fientist` | Saving 70% got him out at 34. The hard part came after: an honest look at the emotional side of early retirement. |
-| `07-go-curry-cracker.md` | `go-curry-cracker` | Ten years and a day to early retirement, then world travel on nearly $100,000 a year of investment income and almost no tax. |
-| `08-frugalwoods.md` | `frugalwoods` | They saved 70–80% of their take-home pay in Cambridge and moved to a 66-acre Vermont homestead at 32. |
-| `09-our-next-life.md` | `our-next-life` | Burned-out political consultants automated their savings and retired at 38 and 41, without pinching pennies. |
-| `10-physician-on-fire.md` | `physician-on-fire` | An anesthesiologist reached FI at 39, aimed for 36× his spending, tested part-time and retired at 43. |
+| `00-welcome.md` | `welcome` | Why this blog exists: real FIRE stories from ordinary people, told so you can find ideas for your own journey. |
+| `01-the-15000-a-year-couple.md` | `15000-a-year-couple` | Retired at 39 with $1 million in Indiana, living on $1,241 a month. You don't need $10 million. |
+| `02-the-librarians-in-ecuador.md` | `librarians-in-ecuador` | Two librarians who never earned six figures retired at 38 and 35 and now raise their daughter in Ecuador. |
+| `03-the-single-mom.md` | `single-mom-of-three` | Bankrupt at 26, $1.5 million at 49. A single mom of three on frugality, maxed-out accounts and feeling "behind". |
+| `04-the-government-employee.md` | `government-employee` | Maxed his retirement plan from 23, took overseas postings, and retired at 52 with $5.2 million and a pension. |
+| `05-never-earned-350k.md` | `never-earned-350k` | Never earned over $350,000 a year, worth nearly $10 million at 52, thanks to equity comp, no debt and resilience. |
+| `06-retired-at-42.md` | `retired-at-42` | $3 million at 42: how to live on your money before 59½, account by account. |
+| `07-moved-abroad.md` | `moved-abroad` | $4.3 million and a new country, but a scarcity mindset. The emotional side of FIRE nobody warns you about. |
+| `08-cant-pull-the-trigger.md` | `one-more-year` | Almost $5 million at 45 and still can't quit: inside the "one more year" trap. |
+| `09-one-spouse-retires.md` | `one-spouse-fire` | She retired at 35 while her husband kept working. How one-spouse FIRE works. |
+| `10-leaving-at-57.md` | `leaving-at-57` | After 35 years, a government employee walks away from a toxic job at 57, and feels pure relief. |
 
 ### About the stories
 
-All ten are about **public FIRE bloggers** who have told their own stories in books, interviews and on their blogs. That avoids the privacy problem of retelling anonymous Reddit posts. Every fact was cross-checked against several sources (listed at the bottom of each story), and only details the sources agree on are included. Where sources disagree (for example, the exact size of a nest egg), the story says so. The "What it would look like in Denmark" sections are our own analysis, converted at about 6.5 kr. per US dollar and 4.7 kr. per Canadian dollar.
+The stories come from **anonymous posts by ordinary people**, mostly on Reddit (r/leanfire, r/Fire, r/fatFIRE), as reported by Yahoo Finance, Benzinga, 24/7 Wall St. and AOL. Reddit itself couldn't be opened from the research environment, so each story is based on those reports, and only details the reports agree on are included. Names and usernames are left out on purpose. Every story notes that the numbers are self-reported and links to its sources. The "How to do this in the US" sections are general explanations of US rules (401(k), IRA, Roth, HSA, Rule of 55, 72(t), ACA, Social Security), written without yearly dollar limits so they don't go out of date. They're not tax advice.
 
 ## Writing a story
 
 Copy [`_story-template.md`](_story-template.md) and fill it in. Every story uses the same structure, so readers can compare them:
-snapshot → starting point → turning point → plan → numbers → hard parts → life after FI → lessons → what it would look like in Denmark → source.
+snapshot → starting point → turning point → plan → numbers → hard parts → life after FI → lessons → how to do this in the US → source.
 
 Ground rules:
 - **Retell in our own words.** Don't copy the original post. Short quotes (a sentence or two) are fine, in quotation marks.
 - **Always credit and link the original** at the bottom of the story.
 - **Numbers are as reported.** Say so, and don't add details that aren't in the source.
-- **Leave out anything that could identify a private person** beyond their public username (employer, town, family names).
-- For the stories you feature most prominently, consider sending the author a short message on Reddit to ask if they're happy to be featured. Most people are, and it's a nice touch.
+- **Keep people anonymous.** No names or usernames in the story, and nothing that could identify them (employer, town, family names).
